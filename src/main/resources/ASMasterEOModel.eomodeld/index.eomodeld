@@ -1,0 +1,32 @@
+{
+    EOModelVersion = "2.1"; 
+    adaptorName = JDBC; 
+    connectionDictionary = {
+        URL = "jdbc:postgresql://localhost/assubscriptions?capitalizeTypenames=true&zeroDateTimeBehavior=convertToNull"; 
+        password = 3368; 
+        username = wouser; 
+    }; 
+    entities = (
+        {className = "com.as.model.Permissions"; name = Permissions; }, 
+        {className = "com.as.model.Person"; name = Person; }, 
+        {className = "com.as.model.Subscription"; name = Subscription; }
+    ); 
+    userInfo = {
+        "_EntityModeler" = {
+            activeDatabaseConfigName = Default; 
+            attributeNamingConvention = {case = Lower; separator = None; }; 
+            databaseConfigs = {
+                Default = {
+                    adaptorName = JDBC; 
+                    connectionDictionary = {
+                        URL = "jdbc:postgresql://localhost/assubscriptions?capitalizeTypenames=true&zeroDateTimeBehavior=convertToNull"; 
+                        password = 3368; 
+                        username = wouser; 
+                    }; 
+                    prototypeEntityName = EOJDBCPostgresqlPrototypes; 
+                }; 
+            }; 
+            entityNamingConvention = {case = Lower; separator = None; }; 
+        }; 
+    }; 
+}

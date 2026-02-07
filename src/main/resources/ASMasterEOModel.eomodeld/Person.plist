@@ -1,0 +1,39 @@
+{
+    attributes = (
+        {columnName = firstname; name = firstName; prototypeName = longText; }, 
+        {allowsNull = N; name = id; prototypeName = id; }, 
+        {columnName = lastname; name = lastName; prototypeName = longText; }, 
+        {columnName = login; name = login; prototypeName = longText; }, 
+        {columnName = password; name = password; prototypeName = longText; }, 
+        {
+            allowsNull = N; 
+            columnName = permissionsid; 
+            name = permissionsID; 
+            prototypeName = id; 
+        }
+    ); 
+    attributesUsedForLocking = (firstName, id, lastName, login, password, permissionsID); 
+    className = "com.as.model.Person"; 
+    classProperties = (firstName, lastName, login, password, permissions, subscriptions); 
+    externalName = person; 
+    fetchSpecificationDictionary = {}; 
+    name = Person; 
+    primaryKeyAttributes = (id); 
+    relationships = (
+        {
+            destination = Permissions; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = id; sourceAttribute = permissionsID; }); 
+            name = permissions; 
+        }, 
+        {
+            destination = Subscription; 
+            isToMany = Y; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = personID; sourceAttribute = id; }); 
+            name = subscriptions; 
+        }
+    ); 
+}

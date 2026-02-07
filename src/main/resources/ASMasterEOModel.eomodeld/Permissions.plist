@@ -1,0 +1,27 @@
+{
+    attributes = (
+        {
+            columnName = addssubscriptions; 
+            name = addsSubscriptions; 
+            prototypeName = intBoolean; 
+        }, 
+        {columnName = editspeople; name = editsPeople; prototypeName = intBoolean; }, 
+        {allowsNull = N; name = id; prototypeName = id; }
+    ); 
+    attributesUsedForLocking = (addsSubscriptions, editsPeople, id); 
+    className = "com.as.model.Permissions"; 
+    classProperties = (addsSubscriptions, editsPeople, persons); 
+    externalName = permissions; 
+    fetchSpecificationDictionary = {}; 
+    name = Permissions; 
+    primaryKeyAttributes = (id); 
+    relationships = (
+        {
+            destination = Person; 
+            isToMany = Y; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = permissionsID; sourceAttribute = id; }); 
+            name = persons; 
+        }
+    ); 
+}

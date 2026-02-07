@@ -1,0 +1,24 @@
+
+#
+#      ASSubscriptionsFW        
+#
+
+er.extensions.ERXModelGroup.ERCMessageAttachment.mailMessageId.ignoreTypeMismatch=true
+
+# Migrations
+er.migration.migrateAtStartup=true
+er.migration.createTablesIfNecessary=true
+#commented out to make the system not look to the model only
+
+
+# if you set the modelNames to the name of the EOModel, 
+# Migrations will automatically look for that name(0)
+# So
+er.migration.modelNames=ASMasterEOModel
+# will look for BriefModel0  automatically
+
+#er.migration.modelNames=ERAttachment,ERCoreBusinessLogic,ASMasterEOModel
+er.migration.modelNames=ASMasterEOModel
+
+
+ASMasterEOModel.MigrationClassPrefix=com.as.migrations.ASMasterEOModel

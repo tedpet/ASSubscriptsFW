@@ -1,0 +1,40 @@
+{
+    attributes = (
+        {columnName = datesubscribed; name = dateSubscribed; prototypeName = date; }, 
+        {columnName = emailaccount; name = emailAccount; prototypeName = longText; }, 
+        {allowsNull = N; name = id; prototypeName = id; }, 
+        {allowsNull = N; columnName = personid; name = personID; prototypeName = id; }, 
+        {columnName = subid; name = subID; prototypeName = longText; }, 
+        {columnName = subpassword; name = subPassword; prototypeName = longText; }, 
+        {
+            columnName = subscrptionname; 
+            name = subscrptionName; 
+            prototypeName = longText; 
+        }
+    ); 
+    attributesUsedForLocking = (
+        dateSubscribed, 
+        emailAccount, 
+        id, 
+        personID, 
+        subID, 
+        subPassword, 
+        subscrptionName
+    ); 
+    className = "com.as.model.Subscription"; 
+    classProperties = (dateSubscribed, emailAccount, person, subID, subPassword, subscrptionName); 
+    externalName = subscription; 
+    fetchSpecificationDictionary = {}; 
+    name = Subscription; 
+    primaryKeyAttributes = (id); 
+    relationships = (
+        {
+            destination = Person; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = id; sourceAttribute = personID; }); 
+            name = person; 
+        }
+    ); 
+}
