@@ -4,7 +4,9 @@ import com.webobjects.eocontrol.EOEditingContext;
 import com.webobjects.foundation.NSArray;
 
 import er.extensions.jdbc.ERXJDBCUtilities;
+import er.extensions.jdbc.ERXSQLHelper.ColumnIndex;
 import er.extensions.migration.ERXMigrationDatabase;
+import er.extensions.migration.ERXMigrationIndex;
 import er.extensions.migration.ERXMigrationTable;
 import er.extensions.migration.ERXModelVersion;
 
@@ -21,7 +23,6 @@ public class ASMasterEOModel0 extends ERXMigrationDatabase.Migration {
 
 	@Override
 	public void upgrade(EOEditingContext editingContext, ERXMigrationDatabase database) throws Throwable {
-		
 		ERXMigrationTable permissionsTable = database.newTableNamed("permissions");
 		permissionsTable.newFlagBooleanColumn("addssubscriptions", NOT_NULL);
 		permissionsTable.newFlagBooleanColumn("editspeople", NOT_NULL);
@@ -44,6 +45,7 @@ public class ASMasterEOModel0 extends ERXMigrationDatabase.Migration {
 		subscriptionTable.newLargeStringColumn("emailaccount", NOT_NULL);
 		subscriptionTable.newIntegerColumn("id", NOT_NULL);
 		subscriptionTable.newIntegerColumn("personid", NOT_NULL);
+		subscriptionTable.newFlagBooleanColumn("retired", NOT_NULL);
 		subscriptionTable.newLargeStringColumn("subid", NOT_NULL);
 		subscriptionTable.newLargeStringColumn("subpassword", NOT_NULL);
 		subscriptionTable.newLargeStringColumn("subscrptionname", NOT_NULL);
@@ -52,6 +54,7 @@ public class ASMasterEOModel0 extends ERXMigrationDatabase.Migration {
 
 		personTable.addForeignKey("permissionsid", "permissions", "id");
 		subscriptionTable.addForeignKey("personid", "person", "id");
+	
 		
 		ERXJDBCUtilities.executeUpdateScriptFromResourceNamed(database.adaptorChannel(),
 				"Startup-" + ERXJDBCUtilities.databaseProductName(database.adaptorChannel()) + ".sql", "ASSubscripts");

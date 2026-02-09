@@ -4,6 +4,7 @@
         {columnName = emailaccount; name = emailAccount; prototypeName = longText; }, 
         {allowsNull = N; name = id; prototypeName = id; }, 
         {allowsNull = N; columnName = personid; name = personID; prototypeName = id; }, 
+        {columnName = retired; name = retired; prototypeName = intBoolean; }, 
         {columnName = subid; name = subID; prototypeName = longText; }, 
         {columnName = subpassword; name = subPassword; prototypeName = longText; }, 
         {
@@ -17,12 +18,21 @@
         emailAccount, 
         id, 
         personID, 
+        retired, 
         subID, 
         subPassword, 
         subscrptionName
     ); 
     className = "com.as.model.Subscription"; 
-    classProperties = (dateSubscribed, emailAccount, person, subID, subPassword, subscrptionName); 
+    classProperties = (
+        dateSubscribed, 
+        emailAccount, 
+        person, 
+        retired, 
+        subID, 
+        subPassword, 
+        subscrptionName
+    ); 
     externalName = subscription; 
     fetchSpecificationDictionary = {}; 
     name = Subscription; 

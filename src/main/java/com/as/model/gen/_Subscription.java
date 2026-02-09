@@ -18,6 +18,7 @@ public abstract class _Subscription extends  ERXGenericRecord {
   // Attribute Keys
   public static final ERXKey<NSTimestamp> DATE_SUBSCRIBED = new ERXKey<NSTimestamp>("dateSubscribed");
   public static final ERXKey<String> EMAIL_ACCOUNT = new ERXKey<String>("emailAccount");
+  public static final ERXKey<Boolean> RETIRED = new ERXKey<Boolean>("retired");
   public static final ERXKey<String> SUB_ID = new ERXKey<String>("subID");
   public static final ERXKey<String> SUB_PASSWORD = new ERXKey<String>("subPassword");
   public static final ERXKey<String> SUBSCRPTION_NAME = new ERXKey<String>("subscrptionName");
@@ -27,6 +28,7 @@ public abstract class _Subscription extends  ERXGenericRecord {
   // Attributes
   public static final String DATE_SUBSCRIBED_KEY = DATE_SUBSCRIBED.key();
   public static final String EMAIL_ACCOUNT_KEY = EMAIL_ACCOUNT.key();
+  public static final String RETIRED_KEY = RETIRED.key();
   public static final String SUB_ID_KEY = SUB_ID.key();
   public static final String SUB_PASSWORD_KEY = SUB_PASSWORD.key();
   public static final String SUBSCRPTION_NAME_KEY = SUBSCRPTION_NAME.key();
@@ -63,6 +65,17 @@ public abstract class _Subscription extends  ERXGenericRecord {
     	_Subscription.LOG.debug( "updating emailAccount from " + emailAccount() + " to " + value);
     }
     takeStoredValueForKey(value, _Subscription.EMAIL_ACCOUNT_KEY);
+  }
+
+  public Boolean retired() {
+    return (Boolean) storedValueForKey(_Subscription.RETIRED_KEY);
+  }
+
+  public void setRetired(Boolean value) {
+    if (_Subscription.LOG.isDebugEnabled()) {
+    	_Subscription.LOG.debug( "updating retired from " + retired() + " to " + value);
+    }
+    takeStoredValueForKey(value, _Subscription.RETIRED_KEY);
   }
 
   public String subID() {
@@ -126,6 +139,7 @@ public abstract class _Subscription extends  ERXGenericRecord {
 
   public static com.as.model.Subscription createSubscription(EOEditingContext editingContext, NSTimestamp dateSubscribed
 , String emailAccount
+, Boolean retired
 , String subID
 , String subPassword
 , String subscrptionName
@@ -133,6 +147,7 @@ public abstract class _Subscription extends  ERXGenericRecord {
     com.as.model.Subscription eo = (com.as.model.Subscription) EOUtilities.createAndInsertInstance(editingContext, _Subscription.ENTITY_NAME);    
 		eo.setDateSubscribed(dateSubscribed);
 		eo.setEmailAccount(emailAccount);
+		eo.setRetired(retired);
 		eo.setSubID(subID);
 		eo.setSubPassword(subPassword);
 		eo.setSubscrptionName(subscrptionName);
