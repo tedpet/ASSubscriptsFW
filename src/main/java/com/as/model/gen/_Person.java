@@ -22,7 +22,7 @@ public abstract class _Person extends  ERXGenericRecord {
   public static final ERXKey<String> PASSWORD = new ERXKey<String>("password");
   // Relationship Keys
   public static final ERXKey<com.as.model.Permissions> PERMISSIONS = new ERXKey<com.as.model.Permissions>("permissions");
-  public static final ERXKey<com.as.model.Subscription> SUBSCRIPTION = new ERXKey<com.as.model.Subscription>("subscription");
+  public static final ERXKey<com.as.model.Subscription> SUBSCRIPTIONS = new ERXKey<com.as.model.Subscription>("subscriptions");
 
   // Attributes
   public static final String FIRST_NAME_KEY = FIRST_NAME.key();
@@ -31,7 +31,7 @@ public abstract class _Person extends  ERXGenericRecord {
   public static final String PASSWORD_KEY = PASSWORD.key();
   // Relationships
   public static final String PERMISSIONS_KEY = PERMISSIONS.key();
-  public static final String SUBSCRIPTION_KEY = SUBSCRIPTION.key();
+  public static final String SUBSCRIPTIONS_KEY = SUBSCRIPTIONS.key();
 
   private static Logger LOG = Logger.getLogger(_Person.class);
 
@@ -112,44 +112,112 @@ public abstract class _Person extends  ERXGenericRecord {
     }
   }
   
-  public com.as.model.Subscription subscription() {
-    return (com.as.model.Subscription)storedValueForKey(_Person.SUBSCRIPTION_KEY);
-  }
-  
-  public void setSubscription(com.as.model.Subscription value) {
-    takeStoredValueForKey(value, _Person.SUBSCRIPTION_KEY);
+  public NSArray<com.as.model.Subscription> subscriptions() {
+    return (NSArray<com.as.model.Subscription>)storedValueForKey(_Person.SUBSCRIPTIONS_KEY);
   }
 
-  public void setSubscriptionRelationship(com.as.model.Subscription value) {
-    if (_Person.LOG.isDebugEnabled()) {
-      _Person.LOG.debug("updating subscription from " + subscription() + " to " + value);
-    }
-    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	setSubscription(value);
-    }
-    else if (value == null) {
-    	com.as.model.Subscription oldValue = subscription();
-    	if (oldValue != null) {
-    		removeObjectFromBothSidesOfRelationshipWithKey(oldValue, _Person.SUBSCRIPTION_KEY);
+  public NSArray<com.as.model.Subscription> subscriptions(EOQualifier qualifier) {
+    return subscriptions(qualifier, null, false);
+  }
+
+  public NSArray<com.as.model.Subscription> subscriptions(EOQualifier qualifier, boolean fetch) {
+    return subscriptions(qualifier, null, fetch);
+  }
+
+  public NSArray<com.as.model.Subscription> subscriptions(EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings, boolean fetch) {
+    NSArray<com.as.model.Subscription> results;
+    if (fetch) {
+      EOQualifier fullQualifier;
+      EOQualifier inverseQualifier = new EOKeyValueQualifier(com.as.model.Subscription.PERSON_KEY, EOQualifier.QualifierOperatorEqual, this);
+    	
+      if (qualifier == null) {
+        fullQualifier = inverseQualifier;
       }
-    } else {
-    	addObjectToBothSidesOfRelationshipWithKey(value, _Person.SUBSCRIPTION_KEY);
+      else {
+        NSMutableArray<EOQualifier> qualifiers = new NSMutableArray<EOQualifier>();
+        qualifiers.addObject(qualifier);
+        qualifiers.addObject(inverseQualifier);
+        fullQualifier = new EOAndQualifier(qualifiers);
+      }
+
+      results = com.as.model.Subscription.fetchSubscriptions(editingContext(), fullQualifier, sortOrderings);
     }
+    else {
+      results = subscriptions();
+      if (qualifier != null) {
+        results = (NSArray<com.as.model.Subscription>)EOQualifier.filteredArrayWithQualifier(results, qualifier);
+      }
+      if (sortOrderings != null) {
+        results = (NSArray<com.as.model.Subscription>)EOSortOrdering.sortedArrayUsingKeyOrderArray(results, sortOrderings);
+      }
+    }
+    return results;
   }
   
+  public void addToSubscriptions(com.as.model.Subscription object) {
+    includeObjectIntoPropertyWithKey(object, _Person.SUBSCRIPTIONS_KEY);
+  }
+
+  public void removeFromSubscriptions(com.as.model.Subscription object) {
+    excludeObjectFromPropertyWithKey(object, _Person.SUBSCRIPTIONS_KEY);
+  }
+
+  public void addToSubscriptionsRelationship(com.as.model.Subscription object) {
+    if (_Person.LOG.isDebugEnabled()) {
+      _Person.LOG.debug("adding " + object + " to subscriptions relationship");
+    }
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+    	addToSubscriptions(object);
+    }
+    else {
+    	addObjectToBothSidesOfRelationshipWithKey(object, _Person.SUBSCRIPTIONS_KEY);
+    }
+  }
+
+  public void removeFromSubscriptionsRelationship(com.as.model.Subscription object) {
+    if (_Person.LOG.isDebugEnabled()) {
+      _Person.LOG.debug("removing " + object + " from subscriptions relationship");
+    }
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+    	removeFromSubscriptions(object);
+    }
+    else {
+    	removeObjectFromBothSidesOfRelationshipWithKey(object, _Person.SUBSCRIPTIONS_KEY);
+    }
+  }
+
+  public com.as.model.Subscription createSubscriptionsRelationship() {
+    EOClassDescription eoClassDesc = EOClassDescription.classDescriptionForEntityName( com.as.model.Subscription.ENTITY_NAME );
+    EOEnterpriseObject eo = eoClassDesc.createInstanceWithEditingContext(editingContext(), null);
+    editingContext().insertObject(eo);
+    addObjectToBothSidesOfRelationshipWithKey(eo, _Person.SUBSCRIPTIONS_KEY);
+    return (com.as.model.Subscription) eo;
+  }
+
+  public void deleteSubscriptionsRelationship(com.as.model.Subscription object) {
+    removeObjectFromBothSidesOfRelationshipWithKey(object, _Person.SUBSCRIPTIONS_KEY);
+    editingContext().deleteObject(object);
+  }
+
+  public void deleteAllSubscriptionsRelationships() {
+    Enumeration<com.as.model.Subscription> objects = subscriptions().immutableClone().objectEnumerator();
+    while (objects.hasMoreElements()) {
+      deleteSubscriptionsRelationship(objects.nextElement());
+    }
+  }
+
 
   public static com.as.model.Person createPerson(EOEditingContext editingContext, String firstName
 , String lastName
 , String login
 , String password
-, com.as.model.Permissions permissions, com.as.model.Subscription subscription) {
+, com.as.model.Permissions permissions) {
     com.as.model.Person eo = (com.as.model.Person) EOUtilities.createAndInsertInstance(editingContext, _Person.ENTITY_NAME);    
 		eo.setFirstName(firstName);
 		eo.setLastName(lastName);
 		eo.setLogin(login);
 		eo.setPassword(password);
     eo.setPermissionsRelationship(permissions);
-    eo.setSubscriptionRelationship(subscription);
     return eo;
   }
 

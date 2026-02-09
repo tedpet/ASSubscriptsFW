@@ -21,6 +21,7 @@ public class ASMasterEOModel0 extends ERXMigrationDatabase.Migration {
 
 	@Override
 	public void upgrade(EOEditingContext editingContext, ERXMigrationDatabase database) throws Throwable {
+		
 		ERXMigrationTable permissionsTable = database.newTableNamed("permissions");
 		permissionsTable.newFlagBooleanColumn("addssubscriptions", NOT_NULL);
 		permissionsTable.newFlagBooleanColumn("editspeople", NOT_NULL);

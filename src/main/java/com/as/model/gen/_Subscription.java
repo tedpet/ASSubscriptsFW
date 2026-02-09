@@ -22,7 +22,7 @@ public abstract class _Subscription extends  ERXGenericRecord {
   public static final ERXKey<String> SUB_PASSWORD = new ERXKey<String>("subPassword");
   public static final ERXKey<String> SUBSCRPTION_NAME = new ERXKey<String>("subscrptionName");
   // Relationship Keys
-  public static final ERXKey<com.as.model.Person> PERSONS = new ERXKey<com.as.model.Person>("persons");
+  public static final ERXKey<com.as.model.Person> PERSON = new ERXKey<com.as.model.Person>("person");
 
   // Attributes
   public static final String DATE_SUBSCRIBED_KEY = DATE_SUBSCRIBED.key();
@@ -31,7 +31,7 @@ public abstract class _Subscription extends  ERXGenericRecord {
   public static final String SUB_PASSWORD_KEY = SUB_PASSWORD.key();
   public static final String SUBSCRPTION_NAME_KEY = SUBSCRPTION_NAME.key();
   // Relationships
-  public static final String PERSONS_KEY = PERSONS.key();
+  public static final String PERSON_KEY = PERSON.key();
 
   private static Logger LOG = Logger.getLogger(_Subscription.class);
 
@@ -98,113 +98,45 @@ public abstract class _Subscription extends  ERXGenericRecord {
     takeStoredValueForKey(value, _Subscription.SUBSCRPTION_NAME_KEY);
   }
 
-  public NSArray<com.as.model.Person> persons() {
-    return (NSArray<com.as.model.Person>)storedValueForKey(_Subscription.PERSONS_KEY);
-  }
-
-  public NSArray<com.as.model.Person> persons(EOQualifier qualifier) {
-    return persons(qualifier, null, false);
-  }
-
-  public NSArray<com.as.model.Person> persons(EOQualifier qualifier, boolean fetch) {
-    return persons(qualifier, null, fetch);
-  }
-
-  public NSArray<com.as.model.Person> persons(EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings, boolean fetch) {
-    NSArray<com.as.model.Person> results;
-    if (fetch) {
-      EOQualifier fullQualifier;
-      EOQualifier inverseQualifier = new EOKeyValueQualifier(com.as.model.Person.SUBSCRIPTION_KEY, EOQualifier.QualifierOperatorEqual, this);
-    	
-      if (qualifier == null) {
-        fullQualifier = inverseQualifier;
-      }
-      else {
-        NSMutableArray<EOQualifier> qualifiers = new NSMutableArray<EOQualifier>();
-        qualifiers.addObject(qualifier);
-        qualifiers.addObject(inverseQualifier);
-        fullQualifier = new EOAndQualifier(qualifiers);
-      }
-
-      results = com.as.model.Person.fetchPersons(editingContext(), fullQualifier, sortOrderings);
-    }
-    else {
-      results = persons();
-      if (qualifier != null) {
-        results = (NSArray<com.as.model.Person>)EOQualifier.filteredArrayWithQualifier(results, qualifier);
-      }
-      if (sortOrderings != null) {
-        results = (NSArray<com.as.model.Person>)EOSortOrdering.sortedArrayUsingKeyOrderArray(results, sortOrderings);
-      }
-    }
-    return results;
+  public com.as.model.Person person() {
+    return (com.as.model.Person)storedValueForKey(_Subscription.PERSON_KEY);
   }
   
-  public void addToPersons(com.as.model.Person object) {
-    includeObjectIntoPropertyWithKey(object, _Subscription.PERSONS_KEY);
+  public void setPerson(com.as.model.Person value) {
+    takeStoredValueForKey(value, _Subscription.PERSON_KEY);
   }
 
-  public void removeFromPersons(com.as.model.Person object) {
-    excludeObjectFromPropertyWithKey(object, _Subscription.PERSONS_KEY);
-  }
-
-  public void addToPersonsRelationship(com.as.model.Person object) {
+  public void setPersonRelationship(com.as.model.Person value) {
     if (_Subscription.LOG.isDebugEnabled()) {
-      _Subscription.LOG.debug("adding " + object + " to persons relationship");
+      _Subscription.LOG.debug("updating person from " + person() + " to " + value);
     }
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	addToPersons(object);
+    	setPerson(value);
     }
-    else {
-    	addObjectToBothSidesOfRelationshipWithKey(object, _Subscription.PERSONS_KEY);
-    }
-  }
-
-  public void removeFromPersonsRelationship(com.as.model.Person object) {
-    if (_Subscription.LOG.isDebugEnabled()) {
-      _Subscription.LOG.debug("removing " + object + " from persons relationship");
-    }
-    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	removeFromPersons(object);
-    }
-    else {
-    	removeObjectFromBothSidesOfRelationshipWithKey(object, _Subscription.PERSONS_KEY);
+    else if (value == null) {
+    	com.as.model.Person oldValue = person();
+    	if (oldValue != null) {
+    		removeObjectFromBothSidesOfRelationshipWithKey(oldValue, _Subscription.PERSON_KEY);
+      }
+    } else {
+    	addObjectToBothSidesOfRelationshipWithKey(value, _Subscription.PERSON_KEY);
     }
   }
-
-  public com.as.model.Person createPersonsRelationship() {
-    EOClassDescription eoClassDesc = EOClassDescription.classDescriptionForEntityName( com.as.model.Person.ENTITY_NAME );
-    EOEnterpriseObject eo = eoClassDesc.createInstanceWithEditingContext(editingContext(), null);
-    editingContext().insertObject(eo);
-    addObjectToBothSidesOfRelationshipWithKey(eo, _Subscription.PERSONS_KEY);
-    return (com.as.model.Person) eo;
-  }
-
-  public void deletePersonsRelationship(com.as.model.Person object) {
-    removeObjectFromBothSidesOfRelationshipWithKey(object, _Subscription.PERSONS_KEY);
-    editingContext().deleteObject(object);
-  }
-
-  public void deleteAllPersonsRelationships() {
-    Enumeration<com.as.model.Person> objects = persons().immutableClone().objectEnumerator();
-    while (objects.hasMoreElements()) {
-      deletePersonsRelationship(objects.nextElement());
-    }
-  }
-
+  
 
   public static com.as.model.Subscription createSubscription(EOEditingContext editingContext, NSTimestamp dateSubscribed
 , String emailAccount
 , String subID
 , String subPassword
 , String subscrptionName
-) {
+, com.as.model.Person person) {
     com.as.model.Subscription eo = (com.as.model.Subscription) EOUtilities.createAndInsertInstance(editingContext, _Subscription.ENTITY_NAME);    
 		eo.setDateSubscribed(dateSubscribed);
 		eo.setEmailAccount(emailAccount);
 		eo.setSubID(subID);
 		eo.setSubPassword(subPassword);
 		eo.setSubscrptionName(subscrptionName);
+    eo.setPersonRelationship(person);
     return eo;
   }
 
